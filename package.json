@@ -7,12 +7,8 @@
     "dev": "next dev",
     "proxy": "npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3000/api/auth/callback --target 3001/api/auth/callback",
     "predeploy": "npm run build", 
-<<<<<<< Updated upstream
-    "deploy": "gh-pages -d dist",
-=======
     "deploy": "gh-pages -d ./.next",
     "export": "next export",
->>>>>>> Stashed changes
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
