@@ -1,0 +1,10 @@
+{
+  "/_document": "pages/_document.js",
+  "/api/auth/[...auth0]": "pages/api/auth/[...auth0].js",
+  "/_app": "pages/_app.js",
+  "/": "pages/index.html",
+  "/api/auth/callback": "pages/api/auth/callback.js",
+  "/logged": "pages/logged.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}
