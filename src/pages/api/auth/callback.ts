@@ -10,5 +10,5 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   console.log(res,req)
-
+  res.redirect('/logged')
 }
