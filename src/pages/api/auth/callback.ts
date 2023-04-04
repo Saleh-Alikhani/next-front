@@ -11,7 +11,4 @@ export default function handler(
 ) {
   console.log(res,req)
 
-res.status(200).redirect('/logged')
-  
-  return res.json({name:'john'})
 }
