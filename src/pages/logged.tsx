@@ -6,7 +6,7 @@ const Logged:React.FC = () => {
   const {isLoading,user,error} = useUser()
   
 
-  return isLoading||error?<>wait.{error}.</>:(
+  return isLoading||error?<>wait.{error?.message}.</>:(
     <>{console.log(user,'here')}{user?.nickname}{user?.email}<div>logged,test{user?.name}</div></>
   )
 }
