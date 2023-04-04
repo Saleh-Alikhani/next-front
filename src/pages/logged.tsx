@@ -3,9 +3,10 @@ import React from 'react'
 
 const Logged:React.FC = () => {
   const {isLoading,user} = useUser()
+  
 
   return isLoading?<>wait..</>:(
-    <div>logged,test{user?.nickname}</div>
+    <>{console.log(user)}<div>logged,test{user?.name}</div></>
   )
 }
 
