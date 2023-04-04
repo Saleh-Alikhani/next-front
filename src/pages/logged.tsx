@@ -1,12 +1,13 @@
-import { useUser } from '@auth0/nextjs-auth0/client'
+
+import { useUser } from '@auth0/nextjs-auth0/client';
 import React from 'react'
 
 const Logged:React.FC = () => {
-  const {isLoading,user} = useUser()
+  const {isLoading,user,error} = useUser()
   
 
-  return isLoading?<>wait..</>:(
-    <>{console.log(user)}<div>logged,test{user?.name}</div></>
+  return isLoading||error?<>wait.{error}.</>:(
+    <>{console.log(user,'here')}{user?.nickname}{user?.email}<div>logged,test{user?.name}</div></>
   )
 }
 
