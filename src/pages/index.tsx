@@ -1,16 +1,10 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
-import Router from 'next/router';
+import Home from '@components/Home';
+import Layout from '@components/layout/Layout';
 
-export default function Home() {
-  const { isLoading, user, error } = useUser();
-
-  return isLoading || error ? (
-    <>{error?.message}</>
-  ) : (
-    <>
-      123<button onClick={() => Router.push('/api/auth/login')}>login</button>
-      123<button onClick={() => Router.push('/logged')}>logged</button>
-      {user && <>welcome {user.name}</>}
-    </>
+export default function HomePage() {
+  return (
+    <Layout>
+      <Home />
+    </Layout>
   );
 }

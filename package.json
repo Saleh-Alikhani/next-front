@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "proxy": "npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3000/api/auth/callback --target 3001/api/auth/callback",
+    "theme": "npx @emeks/antd-custom-theme-generator ./src/assets/styles/custom-theme.less ./src/assets/styles/custom-theme.css",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d ./.next",
     "export": "next export",
@@ -16,22 +17,30 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^2.4.0",
+    "@heroicons/react": "^2.0.17",
     "@next/font": "13.2.4",
     "@types/node": "18.15.11",
     "@types/react": "18.0.32",
     "@types/react-dom": "18.0.11",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "i18next": "^22.4.14",
+    "lottie-react": "^2.4.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.3"
+    "react-i18next": "^12.2.0"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
+    "antd": "^5.4.0",
+    "babel-plugin-styled-components": "^2.0.7",
     "eslint": "^8.37.0",
     "gh-pages": "^5.0.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "styled-components": "^5.3.9",
+    "typescript": "5.0.3"
   }
 }
