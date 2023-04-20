@@ -1,12 +1,13 @@
 import '@assets/styles/globals.css';
 
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { store } from '@src/app/store';
 import type { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <UserProvider>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </UserProvider>
+    </Provider>
   );
 }

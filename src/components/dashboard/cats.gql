@@ -1,0 +1,23 @@
+mutation CreateCat($input: CreateCatDto!) {
+  createCat(input: $input) {
+    name
+    age
+    breed
+    id
+  }
+}
+
+query GetCats {
+  cats {
+    name
+    age
+    breed
+    id
+  }
+}
+
+mutation DeleteCat($CatId: String!) {
+  deleteCat(input: $CatId) {
+    name
+  }
+}

@@ -1,12 +1,12 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
 import Loading from '@components/loading/Loading';
+import i18n from '@src/utils/i18n';
 import { Layout as AntLayout } from 'antd';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import i18n from '@/utils/i18n';
-
 import Header from './Header';
+import MasterLayout from './MasterLayout';
 
 type Props = {
   children: React.ReactNode;
@@ -17,14 +17,19 @@ const StyledWrapper = styled(AntLayout)`
 `;
 
 const Layout: React.FC<Props> = (props) => {
-  const { user, isLoading, error } = useUser();
   const [language, setLanguage] = useState<string>('en');
+  const router = useRouter();
   const [isBuilding, setIsBuilding] = useState<boolean>(true);
-
   useEffect(() => {
     const initialize = () => {
       if (typeof window !== undefined && typeof localStorage !== undefined) {
         const lang = localStorage.getItem('lang') || 'en';
+        const token = localStorage.getItem('id_token') || '';
+        if (token == '') {
+          if (router.pathname !== '/' && router.pathname !== '/login') {
+            router.push('/login');
+          }
+        }
         i18n.changeLanguage(lang);
         setLanguage(lang);
         setIsBuilding(false);
@@ -37,18 +42,22 @@ const Layout: React.FC<Props> = (props) => {
     setIsBuilding(false);
   }, 2000);
 
-  return isLoading || error || isBuilding ? (
-    <Loading />
+  return isBuilding ? (
+    <MasterLayout>
+      <Loading />
+    </MasterLayout>
   ) : (
-    <StyledWrapper>
-      <Header
-        user={user}
-        language={language}
-        setLanguage={(lang) => setLanguage(lang)}
-      />
-      <AntLayout.Content>{props.children}</AntLayout.Content>
-      <AntLayout.Footer>Designed by Saleh</AntLayout.Footer>
-    </StyledWrapper>
+    <MasterLayout>
+      <StyledWrapper>
+        <Header
+          language={language}
+          setLanguage={(lang) => setLanguage(lang)}
+          isUser={localStorage.getItem('id_token') !== null}
+        />
+        <AntLayout.Content>{props.children}</AntLayout.Content>
+        <AntLayout.Footer>Designed by Saleh</AntLayout.Footer>
+      </StyledWrapper>
+    </MasterLayout>
   );
 };
 

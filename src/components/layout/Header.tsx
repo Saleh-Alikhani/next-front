@@ -1,17 +1,16 @@
-import { UserProfile } from '@auth0/nextjs-auth0/client';
+import { LANGUAGES } from '@src/constants/common';
+import i18n from '@src/utils/i18n';
 import { Col, Dropdown, Menu, Row } from 'antd';
 import { t } from 'i18next';
-import Router from 'next/router';
 
-import { LANGUAGES } from '@/constants/common';
-import i18n from '@/utils/i18n';
-
-import { StyledButton, StyledHeader, StyledIcon } from './index.style';
+import NoUserButtons from './header/NoUserButtons';
+import UserButtons from './header/UserButtons';
+import { StyledButtons, StyledHeader, StyledIcon } from './index.style';
 
 type Props = {
-  user?: UserProfile;
   language: string;
   setLanguage: (lang: string) => void;
+  isUser?: boolean;
 };
 
 const Header: React.FC<Props> = (props) => {
@@ -20,7 +19,6 @@ const Header: React.FC<Props> = (props) => {
     localStorage.setItem('lang', info.key);
     props.setLanguage(info.key);
   };
-
   return (
     <StyledHeader>
       <Row dir={props.language === 'fa' ? 'rtl' : 'ltr'}>
@@ -39,32 +37,10 @@ const Header: React.FC<Props> = (props) => {
         >
           <StyledIcon height={22} />
         </Dropdown>
-
-        <Col span={3}>
-          {t('welcome')}
-          {props.user?.nickname?.charAt(0).toUpperCase()}
-          {props.user?.nickname?.slice(1)}
-        </Col>
-        <Col>
-          {!props.user ? (
-            <StyledButton
-              type="primary"
-              onClick={() => Router.push('/api/auth/login')}
-            >
-              {t('login')}
-            </StyledButton>
-          ) : (
-            <>
-              <StyledButton type="link">{t('Dashboard')}</StyledButton>
-              <StyledButton
-                type="link"
-                onClick={() => Router.push('/api/auth/logout')}
-              >
-                {t('Logout')}
-              </StyledButton>
-            </>
-          )}
-        </Col>
+        <Col span={5}>{t('welcome')}</Col>
+        <StyledButtons span={19}>
+          {props.isUser ? <UserButtons /> : <NoUserButtons />}
+        </StyledButtons>
       </Row>
     </StyledHeader>
   );

@@ -1,0 +1,17 @@
+mutation Auth($loginUserInput: LoginUserInput!) {
+  login(loginUserInput: $loginUserInput) {
+    user {
+      id
+      name
+    }
+    id_token
+  }
+}
+
+query getCurrentUser {
+  currentUser {
+    id
+    username
+    name
+  }
+}

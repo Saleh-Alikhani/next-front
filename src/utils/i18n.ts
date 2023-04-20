@@ -10,14 +10,17 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
-        welcome: 'welcome',
+        welcome: 'Welcome to my personal website',
         login: 'Login',
       },
     },
     fa: {
       translation: {
-        welcome: 'خوش آمدید',
+        welcome: 'به وبسایت شخصی من خوش آمدید',
         login: 'ورود',
+        Logout: 'خروج',
+        Dashboard: 'داشبورد',
+        Home: 'خانه',
       },
     },
   },
