@@ -26,6 +26,7 @@ export type Cat = {
   breed: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type CreateCatDto = {
@@ -78,9 +79,14 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   cats: Array<Cat>;
+  checkUsername: Scalars['Boolean'];
   currentUser: User;
   getUserById: User;
   getUsers: Array<User>;
+};
+
+export type QueryCheckUsernameArgs = {
+  username: Scalars['String'];
 };
 
 export type QueryGetUserByIdArgs = {

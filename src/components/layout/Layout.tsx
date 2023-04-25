@@ -1,8 +1,7 @@
-import Loading from '@components/loading/Loading';
-import i18n from '@src/utils/i18n';
 import { Layout as AntLayout } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import Header from './Header';
@@ -17,44 +16,33 @@ const StyledWrapper = styled(AntLayout)`
 `;
 
 const Layout: React.FC<Props> = (props) => {
-  const [language, setLanguage] = useState<string>('en');
+  const [language, setLanguage] = useState('');
   const router = useRouter();
-  const [isBuilding, setIsBuilding] = useState<boolean>(true);
+  const { i18n } = useTranslation();
   useEffect(() => {
-    const initialize = () => {
-      if (typeof window !== undefined && typeof localStorage !== undefined) {
-        const lang = localStorage.getItem('lang') || 'en';
-        const token = localStorage.getItem('id_token') || '';
-        if (token == '') {
-          if (router.pathname !== '/' && router.pathname !== '/login') {
-            router.push('/login');
-          }
-        }
-        i18n.changeLanguage(lang);
-        setLanguage(lang);
-        setIsBuilding(false);
+    if (localStorage.getItem('lang') !== null) {
+      i18n.changeLanguage(localStorage.getItem('lang') as string);
+      setLanguage(localStorage.getItem('lang') as string);
+    }
+    const token = localStorage.getItem('id_token');
+    if (token === null && router.query.err === undefined) {
+      if (
+        router.pathname !== '/' &&
+        router.pathname !== '/login' &&
+        router.pathname !== '/signup'
+      ) {
+        router.push('/login?err=401');
       }
-    };
-    initialize();
-  });
+    } //eslint-disable-next-line
+  }, []);
 
-  setTimeout(() => {
-    setIsBuilding(false);
-  }, 2000);
-
-  return isBuilding ? (
-    <MasterLayout>
-      <Loading />
-    </MasterLayout>
-  ) : (
+  return (
     <MasterLayout>
       <StyledWrapper>
-        <Header
-          language={language}
-          setLanguage={(lang) => setLanguage(lang)}
-          isUser={localStorage.getItem('id_token') !== null}
-        />
-        <AntLayout.Content>{props.children}</AntLayout.Content>
+        <Header language={language} setLanguage={(lang) => setLanguage(lang)} />
+        <AntLayout.Content style={{ overflow: 'auto' }}>
+          {props.children}
+        </AntLayout.Content>
         <AntLayout.Footer>Designed by Saleh</AntLayout.Footer>
       </StyledWrapper>
     </MasterLayout>

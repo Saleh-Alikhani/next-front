@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function logout(req: NextApiRequest, res: NextApiResponse) {
-  req.statusCode == 200;
+export default function logout(_: NextApiRequest, res: NextApiResponse) {
   res.redirect('/');
 }

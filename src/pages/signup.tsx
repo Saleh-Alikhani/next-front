@@ -1,13 +1,13 @@
 import Layout from '@src/components/layout/Layout';
-import Login from '@src/components/Login';
+import SignUp from '@src/components/SignUp';
 import { NextPage } from 'next';
 
-const LoginPage: NextPage = () => {
+const SignUpPage: NextPage = () => {
   return (
     <Layout>
-      <Login />
+      <SignUp />
     </Layout>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

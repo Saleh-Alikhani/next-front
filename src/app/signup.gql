@@ -1,0 +1,9 @@
+mutation SignUp($input: CreateUserDto!) {
+  create(input: $input) {
+    name
+  }
+}
+
+query CheckUsername($username: String!) {
+  checkUsername(username: $username)
+}
