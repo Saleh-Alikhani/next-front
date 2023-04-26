@@ -32,11 +32,20 @@ const PresentCats: React.FC<Props> = (props) => {
   ) : (
     <>
       <Table
+        className="pointer"
         dataSource={props.data.cats}
         columns={columns}
         onRow={(cat) => {
           return {
-            onClick: () => setSelectedCat(cat),
+            onClick: (event: any) => {
+              if (
+                event.target.localName === 'path' ||
+                event.target.localName === 'svg'
+              ) {
+                return;
+              }
+              setSelectedCat(cat);
+            },
           };
         }}
       />
@@ -44,6 +53,16 @@ const PresentCats: React.FC<Props> = (props) => {
         <Modal
           open={selectedCat !== null}
           onCancel={() => setSelectedCat(null)}
+          okButtonProps={{
+            style: {
+              display: 'none',
+            },
+          }}
+          cancelButtonProps={{
+            style: {
+              display: 'none',
+            },
+          }}
         >
           {selectedCat.name}
         </Modal>
