@@ -45,7 +45,11 @@ const Header: React.FC<Props> = (props) => {
         </Dropdown>
         <Col span={6}>{t('welcome')}</Col>
         <StyledButtons span={14}>
-          {isUser ? <UserButtons /> : <NoUserButtons />}
+          {isUser ? (
+            <UserButtons setIsUser={(flag: boolean) => setIsUser(flag)} />
+          ) : (
+            <NoUserButtons />
+          )}
         </StyledButtons>
       </Row>
     </StyledHeader>

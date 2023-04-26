@@ -1,12 +1,16 @@
 import { useGetCurrentUserQuery } from '@src/app/login.generated';
 import Button from '@src/components/shared/Button';
 import i18n from '@src/utils/i18n';
-import { Menu } from 'antd';
+import { Menu, notification } from 'antd';
 import { t } from 'i18next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const UserButtons: React.FC = () => {
+type Props = {
+  setIsUser: (isUser: boolean) => void;
+};
+
+const UserButtons: React.FC<Props> = (props) => {
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('id_token');
@@ -19,12 +23,20 @@ const UserButtons: React.FC = () => {
       if (error.message?.slice(0, 12) === 'Unauthorized') {
         localStorage.removeItem('id_token');
         router.push('/login?err=401');
+      } else {
+        notification.destroy();
+        notification.error({
+          message: 'Database is down',
+          description: 'Database may be temporarily down contact admin.',
+          placement: 'bottomLeft',
+        });
+        props.setIsUser(false);
       }
     } //eslint-disable-next-line
   }, [isLoading]);
 
   return isLoading || !data ? (
-    <></>
+    <>12</>
   ) : (
     <>
       <Menu
