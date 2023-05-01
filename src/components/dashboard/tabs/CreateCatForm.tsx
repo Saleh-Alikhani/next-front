@@ -1,20 +1,39 @@
-import { CAT_BREEDS } from '@src/constants/common';
-import { Form, Input, Select } from 'antd';
+import { CAT_BREEDS } from '@src/constants/sounds';
+import { Form, Input, Select, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
-import Button from '../shared/Button';
-import { StyledForm } from './Dashboard.style';
+import Button from '../../shared/Button';
+import { StyledForm } from '../Dashboard.style';
+import { useCreateCatMutation } from './cats.generated';
 
 type Props = {
-  onFinish: (fields: any) => void;
-  isLoading: boolean;
+  onFinish: () => void;
 };
 
 const CreateCatForm: React.FC<Props> = (props) => {
+  const { t, i18n } = useTranslation();
+  const [createCat, createCatRes] = useCreateCatMutation();
+
+  const handleFinish = (fields: any) => {
+    createCat({
+      input: {
+        name: fields.name,
+        age: Number(fields.age),
+        breed: fields.breed,
+      },
+    }).then(() => props.onFinish());
+  };
+
   return (
-    <StyledForm layout="vertical" onFinish={props.onFinish}>
+    <StyledForm
+      layout="vertical"
+      onFinish={handleFinish}
+      dir={i18n.language === 'fa' ? 'rtl' : undefined}
+    >
+      <Typography.Title>{t('Create')}</Typography.Title>
       <Form.Item
         name="name"
-        label="Name of Cat:"
+        label={`${t('catName')}:`}
         rules={[
           {
             required: true,
@@ -27,7 +46,7 @@ const CreateCatForm: React.FC<Props> = (props) => {
       </Form.Item>
       <Form.Item
         name="age"
-        label="Age of Cat:"
+        label={`${t('catAge')}:`}
         rules={[
           {
             required: true,
@@ -39,7 +58,7 @@ const CreateCatForm: React.FC<Props> = (props) => {
       </Form.Item>
       <Form.Item
         name="breed"
-        label="Breed of Cat:"
+        label={`${t('catBreed')}:`}
         rules={[
           {
             required: true,
@@ -57,10 +76,10 @@ const CreateCatForm: React.FC<Props> = (props) => {
         <Button
           htmlType="submit"
           type="primary"
-          $margin="10px 2px"
-          loading={props.isLoading}
+          $margin="10px 58px"
+          loading={createCatRes.isLoading}
         >
-          Submit
+          {t('Create')}
         </Button>
       </Form.Item>
     </StyledForm>

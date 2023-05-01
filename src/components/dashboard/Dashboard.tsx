@@ -1,87 +1,51 @@
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
+import { useAnimate } from 'framer-motion';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import {
-  useCreateCatMutation,
-  useDeleteCatMutation,
-  useGetCatsQuery,
-} from './cats.generated';
-import CreateCatForm from './CreateCatForm';
-import { StyledLayout, StyledSider, StyledTabs } from './Dashboard.style';
-import PresentCats from './PresentCats';
+import { StyledLayout, StyledTrigger } from './Dashboard.style';
+import Sider from './sider/Sider';
+import Tabs from './tabs/Tabs';
 
 const Dashboard: React.FC = () => {
-  const [createCat, createCatRes] = useCreateCatMutation();
-  const [activeTab, setActiveTab] = useState<string>('create');
-  const { data, isLoading, refetch } = useGetCatsQuery();
-  const [deleteCat] = useDeleteCatMutation();
+  const [trigger, animate] = useAnimate();
+  const [isSiderOpen, setIsSiderOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('myCats');
+  const { t } = useTranslation();
 
-  return isLoading || !data ? (
-    <></>
-  ) : (
+  const toggleMenu = () => {
+    if (isSiderOpen) {
+      setIsSiderOpen(!isSiderOpen);
+      animate(trigger.current, { x: [-250, 0] });
+    } else {
+      setIsSiderOpen(!isSiderOpen);
+      animate(trigger.current, { x: [0, -250] });
+    }
+  };
+
+  return (
     <StyledLayout>
       <Layout.Content>
-        <StyledTabs
-          items={[
-            {
-              label: 'Present',
-              key: 'present',
-              children: (
-                <PresentCats
-                  onDelete={(id) =>
-                    deleteCat({ CatId: id }).then(() => refetch())
-                  }
-                  data={data}
-                />
-              ),
-            },
-            {
-              label: 'Create',
-              key: 'create',
-              children: (
-                <CreateCatForm
-                  isLoading={createCatRes.isLoading}
-                  onFinish={(fields: any) => {
-                    createCat({
-                      input: {
-                        name: fields.name,
-                        age: Number(fields.age),
-                        breed: fields.breed,
-                      },
-                    }).then(() => refetch());
-                    setActiveTab('present');
-                  }}
-                />
-              ),
-            },
-          ]}
-          activeKey={activeTab}
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={(flag) => setActiveTab(flag)}
         />
       </Layout.Content>
-      <StyledSider width={250} collapsed={false}>
-        <Menu
-          defaultSelectedKeys={['create']}
-          selectedKeys={[activeTab]}
-          items={[
-            {
-              label: 'cats',
-              type: 'group',
-              children: [
-                {
-                  label: 'create',
-                  key: 'create',
-                  onClick: (info) => setActiveTab(info.key),
-                },
-                {
-                  label: 'Present',
-                  key: 'present',
-                  onClick: (info) => setActiveTab(info.key),
-                },
-              ],
-            },
-          ]}
-        />
-      </StyledSider>
+      <StyledTrigger
+        onClick={toggleMenu}
+        ref={trigger}
+        justify="center"
+        align="middle"
+      >
+        {t('Menu')}
+      </StyledTrigger>
+      <Sider
+        setActiveTab={(key) => setActiveTab(key)}
+        width={250}
+        collapsed={!isSiderOpen}
+        activeTab={activeTab}
+        collapsedWidth={0}
+      />
     </StyledLayout>
   );
 };

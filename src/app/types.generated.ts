@@ -79,18 +79,19 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   cats: Array<Cat>;
-  checkUsername: Scalars['Boolean'];
   currentUser: User;
   getUserById: User;
   getUsers: Array<User>;
-};
-
-export type QueryCheckUsernameArgs = {
-  username: Scalars['String'];
+  myCats: Array<Cat>;
+  usersById: Array<User>;
 };
 
 export type QueryGetUserByIdArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+export type QueryUsersByIdArgs = {
+  Ids: Array<Scalars['ID']>;
 };
 
 export type User = {

@@ -29,11 +29,17 @@ const Login: React.FC = () => {
         placement: 'bottomLeft',
       });
     }
+    if (authRes.isError && authRes.error.message?.slice(0, 12)) {
+      notification.error({
+        message: 'Entered credentials are wrong',
+        placement: 'bottomLeft',
+      });
+    }
     if (authRes.data) {
       localStorage.setItem('id_token', authRes.data.login.id_token);
       router.push('/');
     } //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authRes.data]);
+  }, [authRes.data, authRes.isError]);
   return (
     <>
       <Row justify="center" dir={i18n.language === 'fa' ? 'rtl' : 'ltr'}>

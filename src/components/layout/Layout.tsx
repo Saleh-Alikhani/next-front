@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
+import Loading from '../loading/Loading';
 import Header from './Header';
 import MasterLayout from './MasterLayout';
 
@@ -17,6 +18,7 @@ const StyledWrapper = styled(AntLayout)`
 
 const Layout: React.FC<Props> = (props) => {
   const [language, setLanguage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { i18n } = useTranslation();
   useEffect(() => {
@@ -35,8 +37,11 @@ const Layout: React.FC<Props> = (props) => {
       }
     } //eslint-disable-next-line
   }, []);
+  setTimeout(() => setIsLoading(false), 300);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <MasterLayout>
       <StyledWrapper>
         <Header language={language} setLanguage={(lang) => setLanguage(lang)} />

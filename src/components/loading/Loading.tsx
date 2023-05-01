@@ -1,9 +1,13 @@
 import loading from '@assets/lotties/loading-lottie.json';
 
-import { StyledLottie } from './Loading.style';
+import { StyledLottie, StyledWrapper } from './Loading.style';
 
 const Loading: React.FC = () => {
-  return <StyledLottie animationData={loading} />;
+  return (
+    <StyledWrapper>
+      <StyledLottie animationData={loading} />
+    </StyledWrapper>
+  );
 };
 
 export default Loading;

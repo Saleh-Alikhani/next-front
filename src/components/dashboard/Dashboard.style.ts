@@ -1,5 +1,5 @@
 import { TrashIcon } from '@heroicons/react/24/solid';
-import { Form, Layout, Tabs } from 'antd';
+import { Form, Layout, Row, Tabs } from 'antd';
 import styled from 'styled-components';
 
 export const StyledLayout = styled(Layout)`
@@ -10,13 +10,26 @@ export const StyledSider = styled(Layout.Sider)`
   background-color: ${({ theme }) => theme.colors.white} !important;
 `;
 
+export const StyledTrigger = styled(Row)`
+  position: fixed;
+  right: 40px;
+  top: 100px;
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  z-index: 2;
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+`;
+
 export const StyledTabs = styled(Tabs)`
   height: 100%;
 
   .ant-tabs-content {
     height: 100%;
     justify-content: center;
-    align-items: center;
+    margin-top: 24px;
     display: flex;
   }
   .ant-tabs-nav {

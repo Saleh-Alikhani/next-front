@@ -33,7 +33,7 @@ const SignUp: React.FC = () => {
               if (res.error) {
                 if (res.error.message.slice(0, 8) === 'Conflict') {
                   notification.error({
-                    message: 'Please choose another username.',
+                    message: t('username_error'),
                     placement: 'bottomLeft',
                   });
                 }

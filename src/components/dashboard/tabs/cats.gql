@@ -7,8 +7,8 @@ mutation CreateCat($input: CreateCatDto!) {
   }
 }
 
-query GetCats {
-  cats {
+query GetMyCats {
+  myCats {
     name
     age
     breed
@@ -16,8 +16,26 @@ query GetCats {
   }
 }
 
+query GetCats {
+  cats {
+    name
+    age
+    breed
+    id
+    userId
+  }
+}
+
 mutation DeleteCat($CatId: String!) {
   deleteCat(input: $CatId) {
     name
+  }
+}
+
+query GetUsers($Ids: [ID!]!) {
+  usersById(Ids: $Ids) {
+    name
+    username
+    id
   }
 }

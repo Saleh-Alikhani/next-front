@@ -4,7 +4,7 @@
  * instead, edit one of the `.gql` files in the project.
  */
 
-import * as Types from '../../app/types.generated';
+import * as Types from '../../../app/types.generated';
 
 import { api } from '@src/app/baseApi';
 (module as any).hot?.accept();
@@ -23,6 +23,19 @@ export type CreateCatMutation = {
   };
 };
 
+export type GetMyCatsQueryVariables = Types.Exact<{ [key: string]: never }>;
+
+export type GetMyCatsQuery = {
+  __typename?: 'Query';
+  myCats: Array<{
+    __typename?: 'Cat';
+    name: string;
+    age: number;
+    breed: string;
+    id: string;
+  }>;
+};
+
 export type GetCatsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type GetCatsQuery = {
@@ -33,6 +46,7 @@ export type GetCatsQuery = {
     age: number;
     breed: string;
     id: string;
+    userId: string;
   }>;
 };
 
@@ -45,9 +59,33 @@ export type DeleteCatMutation = {
   deleteCat: { __typename?: 'Cat'; name: string };
 };
 
+export type GetUsersQueryVariables = Types.Exact<{
+  Ids: Array<Types.Scalars['ID']> | Types.Scalars['ID'];
+}>;
+
+export type GetUsersQuery = {
+  __typename?: 'Query';
+  usersById: Array<{
+    __typename?: 'User';
+    name: string;
+    username: string;
+    id: string;
+  }>;
+};
+
 export const CreateCatDocument = `
     mutation CreateCat($input: CreateCatDto!) {
   createCat(input: $input) {
+    name
+    age
+    breed
+    id
+  }
+}
+    `;
+export const GetMyCatsDocument = `
+    query GetMyCats {
+  myCats {
     name
     age
     breed
@@ -62,6 +100,7 @@ export const GetCatsDocument = `
     age
     breed
     id
+    userId
   }
 }
     `;
@@ -72,6 +111,15 @@ export const DeleteCatDocument = `
   }
 }
     `;
+export const GetUsersDocument = `
+    query GetUsers($Ids: [ID!]!) {
+  usersById(Ids: $Ids) {
+    name
+    username
+    id
+  }
+}
+    `;
 
 const injectedRtkApi = api.injectEndpoints({
   overrideExisting: (module as any).hot?.status() === 'apply',
@@ -79,11 +127,17 @@ const injectedRtkApi = api.injectEndpoints({
     CreateCat: build.mutation<CreateCatMutation, CreateCatMutationVariables>({
       query: (variables) => ({ document: CreateCatDocument, variables }),
     }),
+    GetMyCats: build.query<GetMyCatsQuery, GetMyCatsQueryVariables | void>({
+      query: (variables) => ({ document: GetMyCatsDocument, variables }),
+    }),
     GetCats: build.query<GetCatsQuery, GetCatsQueryVariables | void>({
       query: (variables) => ({ document: GetCatsDocument, variables }),
     }),
     DeleteCat: build.mutation<DeleteCatMutation, DeleteCatMutationVariables>({
       query: (variables) => ({ document: DeleteCatDocument, variables }),
+    }),
+    GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables>({
+      query: (variables) => ({ document: GetUsersDocument, variables }),
     }),
   }),
 });
@@ -91,7 +145,11 @@ const injectedRtkApi = api.injectEndpoints({
 export { injectedRtkApi as api };
 export const {
   useCreateCatMutation,
+  useGetMyCatsQuery,
+  useLazyGetMyCatsQuery,
   useGetCatsQuery,
   useLazyGetCatsQuery,
   useDeleteCatMutation,
+  useGetUsersQuery,
+  useLazyGetUsersQuery,
 } = injectedRtkApi;

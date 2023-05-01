@@ -17,25 +17,11 @@ export type SignUpMutation = {
   create: { __typename?: 'User'; name: string };
 };
 
-export type CheckUsernameQueryVariables = Types.Exact<{
-  username: Types.Scalars['String'];
-}>;
-
-export type CheckUsernameQuery = {
-  __typename?: 'Query';
-  checkUsername: boolean;
-};
-
 export const SignUpDocument = `
     mutation SignUp($input: CreateUserDto!) {
   create(input: $input) {
     name
   }
-}
-    `;
-export const CheckUsernameDocument = `
-    query CheckUsername($username: String!) {
-  checkUsername(username: $username)
 }
     `;
 
@@ -45,17 +31,8 @@ const injectedRtkApi = api.injectEndpoints({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
       query: (variables) => ({ document: SignUpDocument, variables }),
     }),
-    CheckUsername: build.query<CheckUsernameQuery, CheckUsernameQueryVariables>(
-      {
-        query: (variables) => ({ document: CheckUsernameDocument, variables }),
-      }
-    ),
   }),
 });
 
 export { injectedRtkApi as api };
-export const {
-  useSignUpMutation,
-  useCheckUsernameQuery,
-  useLazyCheckUsernameQuery,
-} = injectedRtkApi;
+export const { useSignUpMutation } = injectedRtkApi;

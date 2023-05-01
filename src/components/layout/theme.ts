@@ -15,14 +15,22 @@ const fontSize = {
   md: '18px',
 };
 
+const border = {
+  radius: {
+    sm: '6px',
+  },
+};
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: typeof colors;
     fontSize: typeof fontSize;
+    border: typeof border;
   }
 }
 
 export const theme: DefaultTheme = {
   colors,
   fontSize,
+  border,
 };

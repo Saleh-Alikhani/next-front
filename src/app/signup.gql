@@ -3,7 +3,3 @@ mutation SignUp($input: CreateUserDto!) {
     name
   }
 }
-
-query CheckUsername($username: String!) {
-  checkUsername(username: $username)
-}
